@@ -1,0 +1,1 @@
+export const GetUniqueArrayItems = (array) => [...new Set(array)];
