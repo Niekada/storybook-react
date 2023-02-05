@@ -14,7 +14,8 @@ const Routes = () => {
                 element={ 
                   <Layout>
                     <Component/>
-                  </Layout>}
+                  </Layout>
+                }
             />
         ))}
     </RoutesWrapper> 

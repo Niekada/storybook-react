@@ -2,17 +2,19 @@ import styled from "styled-components";
 import Select from "react-select";
 
 import { useContext, useState } from "react";
-import { useParams } from "react-router"
+import { useParams, useNavigate, generatePath } from "react-router"
 import { ProductContext } from "../../contexts/ProductContext";
 import { capitalizeFirstLetter } from "../../utils/string";
 import { GetUniqueArrayItems } from "../../utils/array";
 import { screenSize } from "../../consts/mediaQueries";
 import { lightBorderColor } from "../../consts/colors";
+import { PRODUCT_PATH } from "../../routes/const";
 
 const Products = () => {
   const { category } = useParams();
   const { products } = useContext(ProductContext);
   const [ selectedColors, setSelectedColors ] = useState([]);
+  const navigate = useNavigate();
 
   const isCategory = (product) => product.type === category;
   const categoryProducts = products.filter(isCategory);
@@ -24,14 +26,21 @@ const Products = () => {
     label: capitalizeFirstLetter(color),
   }))
 
-  const selectedColorsArray = selectedColors.map(color => color.value);
-  const filteredByColorProducts = categoryProducts.filter(product => 
+  const selectedColorsArray = selectedColors.map((color) => 
+    color.value
+  );
+  const filteredByColorProducts = categoryProducts.filter((product) => 
     selectedColorsArray.includes(product.color.toLowerCase())
   );
 
-  const filteredProducts = filteredByColorProducts.lenght 
+  const filteredProducts = filteredByColorProducts.length 
     ? filteredByColorProducts 
     : categoryProducts;
+
+  const navigateToProduct = (category, productId) => {
+    const path = generatePath(PRODUCT_PATH, {category, productId});
+    navigate(path);
+  };
 
   return (
     <div>
@@ -48,7 +57,11 @@ const Products = () => {
       </FiltersContainer>
       <ProductsContainer> 
         {filteredProducts.map((product) => (
-          <ProductItem key={product.id}>
+          <ProductItem 
+            key={product.id} 
+            onClick={() =>
+              navigateToProduct(category, product.id)
+            }>
             <img src={product.picUrl[0]} alt={product.name}/>
             <ProductProperty>
               {capitalizeFirstLetter(product.name.toLowerCase())}
@@ -64,7 +77,7 @@ const Products = () => {
 };
 
 const FiltersContainer = styled.div`
-  padding: 40px 40px 0 40px;
+  margin-bottom: 40px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   @media (min-width: ${screenSize.tablet}) and (max-width: ${screenSize.laptop}) {
@@ -80,7 +93,6 @@ const Filter = styled.div`
 `
 
 const ProductsContainer = styled.div`
-  padding: 40px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   @media (min-width: ${screenSize.tablet}) and (max-width: ${screenSize.laptop}) {
