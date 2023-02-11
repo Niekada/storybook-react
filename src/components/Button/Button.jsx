@@ -13,11 +13,18 @@ const PrimaryButton = styled.button`
   &:hover {
     background-color: ${primaryDarkButtonColor}};
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+  }
 `;
 
-const Button = ({children}) => {
+const Button = ({ children, ...rest }) => {
   return (
-    <PrimaryButton>{children}</PrimaryButton>
+    <PrimaryButton {...rest}>
+      {children}
+    </PrimaryButton>
   )
 }
 
