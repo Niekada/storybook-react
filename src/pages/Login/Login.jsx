@@ -5,7 +5,11 @@ import { screenSize } from "../../consts/mediaQueries"
 import Button from "../../components/Button/Button"
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
-import { REGISTER_PATH } from "../../routes/const"
+import { CHECKOUT_PATH, REGISTER_PATH } from "../../routes/const"
+import { useContext } from "react";
+import { loginUser } from "../../api/users";
+import { UserContext } from "../../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid Email").required("Required"),
@@ -13,13 +17,18 @@ const validationSchema = Yup.object().shape({
 });
 
 const Login = () => {
+    const { setUser } = useContext(UserContext);
+    const navigate = useNavigate();
 
-    const handleSubmit = (values, {setSubmitting, resetForm}) => {
-        setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-            resetForm();
-        }, 2000);
+    const handleSubmit = (values) => {
+        loginUser(values)
+            .then((response) => {
+                setUser(response);
+                navigate(CHECKOUT_PATH)
+            })
+            .catch((error) => {
+                console.log("Failed to login:", error);
+            });
     };
 
   return (
