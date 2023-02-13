@@ -14,9 +14,20 @@ body,input,h1,h2,h3,h4,h5,h6,p,ul {
     margin: 0
 };
 
-a {
+a:link {
     text-decoration: none;
-    color: inherit;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a:active {
+    text-decoration: none;
 }
 
 code {

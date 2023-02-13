@@ -5,37 +5,43 @@ import { screenSize } from "../../consts/mediaQueries"
 import Button from "../../components/Button/Button"
 import * as Yup from "yup";
 import { LOGIN_PATH } from "../../routes/const";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { createUser } from "../../api/users";
 
 const validationSchema = Yup.object().shape({
-    firstName: Yup.string().required("Required"),
-    lastName: Yup.string().required("Required"),
+    first_name: Yup.string().required("Required"),
+    last_name: Yup.string().required("Required"),
     email: Yup.string().email("Invalid Email").required("Required"),
     password: Yup.string().required("Required"),
-    confirmPassword: Yup.string()
+    confirm_password: Yup.string()
         .required("Please retype your password.")
         .oneOf([Yup.ref("password")], "Your passwords do not match."),
 });
 
 const Register = () => {
-
-    const handleSubmit = (values, {setSubmitting, resetForm}) => {
-        setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-            resetForm();
-        }, 2000);
+    const navigate = useNavigate()
+;
+    const handleSubmit = (values, { setSubmitting, resetForm }) => {
+        const { confirm_password, ...user } = values;
+        delete user.confirm_password;
+        createUser(user)
+            .then(() => {
+                navigate(LOGIN_PATH);
+            })
+            .catch((error) => {
+                console.error("failed to create user: ", error);
+            });
     };
 
   return (
     <div>
         <Formik
             initialValues={{
-                firstName: "",
-                lastName: "",
+                first_name: "",
+                last_name: "",
                 email: "",
                 password: "",
-                confirmPassword: "",
+                confirm_password: "",
             }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
@@ -44,11 +50,11 @@ const Register = () => {
             <StyledForm>
                 <Title>Register Your Account</Title>
                 <FormikInput 
-                    name="firstName" 
+                    name="first_name" 
                     placeholder="First Name"
                 />
                 <FormikInput 
-                    name="lastName" 
+                    name="last_name" 
                     placeholder="Last Name"
                 />
                 <FormikInput 
@@ -62,7 +68,7 @@ const Register = () => {
                     placeholder="Password"
                 />
                 <FormikInput 
-                    name="confirmPassword" 
+                    name="confirm_password" 
                     type="password" 
                     placeholder="Repeat Your Password"
                 />
