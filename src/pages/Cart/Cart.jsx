@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import { ProductContext } from "../../contexts/ProductContext";
-import { useContext } from "react";
+import { useProducts } from "../../hooks/products";
 import { euroSymbol } from "../../consts/currency";
 import { screenSize } from "../../consts/mediaQueries";
 import Button from "../../components/Button/Button";
@@ -8,7 +7,8 @@ import { Link } from "react-router-dom";
 import { LOGIN_PATH } from "../../routes/const";
 
 const Cart = () => {
-    const { products } = useContext(ProductContext);
+    const { data } = useProducts();
+    const products = data || [];;
 
     const cartProducts = products.slice(0, 2);
     console.log(cartProducts);

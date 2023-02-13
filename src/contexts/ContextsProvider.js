@@ -1,12 +1,9 @@
-import { ProductProvider } from "./ProductContext";
 import { UserProvider } from "./UserContext";
 
 const ContextsProvider = ({ children }) => {
   return (
     <UserProvider>
-        <ProductProvider>
-            {children}
-        </ProductProvider>
+      {children}
     </UserProvider>
   )
 }

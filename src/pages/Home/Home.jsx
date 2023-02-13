@@ -1,11 +1,12 @@
-import { useContext } from "react";
-import { ProductContext } from "../../contexts/ProductContext";
 import { GetUniqueArrayItems } from "../../utils/array";
 import styled from "styled-components";
 import ProductCategory from "./ProductCategory";
+import { useProducts } from "../../hooks/products";
 
 const Home = () => {
-  const { products, isLoading, error } = useContext(ProductContext);
+  const { data, isLoading, error } = useProducts();
+  const products = data || [];
+
   const uniqcategories = GetUniqueArrayItems(
     products.map((product) => product.type)
     );
@@ -20,7 +21,7 @@ const Home = () => {
   }
 
   if (error) {
-    return error;
+    return "Product was not found";
   }
 
   return ( 

@@ -1,3 +1,9 @@
+// nebenaudojama!!!
+//
+//
+//
+//
+
 import axios from "axios";
 import { createContext, useState, useEffect } from "react";
 
@@ -6,7 +12,7 @@ const ProductContext = createContext();
 const ProductProvider = ({children}) => {
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-     const [error, setError] = useState("");
+    const [error, setError] = useState("");
     
     const transformData = (products) => {
         return products.map(product => ({ 
@@ -19,18 +25,18 @@ const ProductProvider = ({children}) => {
     useEffect(() => {
         setIsLoading(true);
         axios
-        .get("https://testapi.io/api/lukasnvc/resource/NewEshop")
-        .then((response) => {
-            const transformedData = transformData(response.data.data);
-            setProducts(transformedData); 
-        })
-        .catch((error) => {
-            setError("Nepavyko gauti produktų");
-            console.error("Products:", error);
-        })
-        .finally(() => {
-            setIsLoading(false);
-        });
+            .get("https://testapi.io/api/lukasnvc/resource/NewEshop")
+            .then((response) => {
+                const transformedData = transformData(response.data.data);
+                setProducts(transformedData); 
+            })
+            .catch((error) => {
+                setError("Nepavyko gauti produktų");
+                console.error("Products:", error);
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
     }, []);
  
   return (

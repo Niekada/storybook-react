@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import Select from "react-select";
 
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useParams, useNavigate, generatePath } from "react-router"
-import { ProductContext } from "../../contexts/ProductContext";
+import { useProducts } from "../../hooks/products";
 import { capitalizeFirstLetter } from "../../utils/string";
 import { GetUniqueArrayItems } from "../../utils/array";
 import { screenSize } from "../../consts/mediaQueries";
@@ -12,7 +12,8 @@ import { PRODUCT_PATH } from "../../routes/const";
 
 const Products = () => {
   const { category } = useParams();
-  const { products } = useContext(ProductContext);
+  const { data } = useProducts();
+  const products = data || [];
   const [ selectedColors, setSelectedColors ] = useState([]);
   const navigate = useNavigate();
 
