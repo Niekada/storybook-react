@@ -1,18 +1,14 @@
+import { useContext } from "react";
 import styled from "styled-components";
-import { useProducts } from "../../hooks/products";
-import { euroSymbol } from "../../consts/currency";
 import { screenSize } from "../../consts/mediaQueries";
 import Button from "../../components/Button/Button";
 import { Link } from "react-router-dom";
-import { LOGIN_PATH } from "../../routes/const";
+import { LOGIN_PATH, CHECKOUT_PATH } from "../../routes/const";
+import { UserContext } from "../../contexts/UserContext";
+import Checkout from "../Checkout/Checkout";
 
 const Cart = () => {
-    const { data } = useProducts();
-    const products = data || [];;
-
-    const cartProducts = products.slice(0, 2);
-    console.log(cartProducts);
-
+    const { isLoggedIn } = useContext(UserContext)
 
   return (
     <Container>
@@ -20,30 +16,9 @@ const Cart = () => {
             <h2>MY CART</h2>
             <p>Your items reserved for 30mins</p>
         </Header>
-        <CartContainer>
-            {cartProducts.map((product) => 
-                <CartItem key={product.id}>
-                    <img 
-                        src={product.picUrl[0]}
-                        alt={product.name}
-                    />
-                    <div>
-                        <CartItemPrice>
-                            {euroSymbol}
-                            {product.price}
-                        </CartItemPrice>
-                        <p>
-                            {product.name}
-                        </p>
-                        <CartItemColor>
-                            {product.color}
-                        </CartItemColor>
-                    </div>
-                </CartItem>
-            )}
-        </CartContainer>
+        <Checkout />
         <ButtonContainer>
-            <Button as={Link} to={LOGIN_PATH}>
+            <Button as={Link} to={isLoggedIn ? CHECKOUT_PATH : LOGIN_PATH}>
                 CheckOut
             </Button>
         </ButtonContainer>
@@ -70,36 +45,9 @@ const Header = styled.div`
     }
 `;
 
-const CartContainer = styled.div`
-    background-color: #ffffff;
-    margin-bottom: 24px;
-`;
-
-const CartItem = styled.div`
-    display: flex;
-    
-    img {
-        width: 120px;
-        margin-right: 8px;
-        object-fit: contain;
-    }
-`;
-
-const CartItemPrice = styled.p`
-    font-size: 20px;
-    font-weight: 700;
-    margin-top: 16px;
-    margin-bottom: 10px;
-`;
-
-const CartItemColor = styled.p`
-    font-weight: 300;
-    margin-top: 8px;
-`;
-
 const ButtonContainer = styled.div`
     display: flex;
     justify-content: flex-end;
-`
+`;
 
 export default Cart;

@@ -1,5 +1,5 @@
 import { Formik, Form, } from "formik"
-import FormikInput from "../../components/Button/FormikInput";
+import FormikInput from "../../components/Formik/FormikInput";
 import styled from "styled-components";
 import { screenSize } from "../../consts/mediaQueries"
 import Button from "../../components/Button/Button"

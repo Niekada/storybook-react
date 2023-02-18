@@ -1,9 +1,15 @@
+import { ProductProvider } from "./ProductContext"
 import { UserProvider } from "./UserContext";
+import { CartProvider } from "./CartContext";
 
 const ContextsProvider = ({ children }) => {
   return (
     <UserProvider>
-      {children}
+      <ProductProvider>
+        <CartProvider>
+          {children}
+        </CartProvider>
+      </ProductProvider>
     </UserProvider>
   )
 }
