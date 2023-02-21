@@ -5,10 +5,12 @@ import Button from "../../components/Button/Button";
 import { Link } from "react-router-dom";
 import { LOGIN_PATH, CHECKOUT_PATH } from "../../routes/const";
 import { UserContext } from "../../contexts/UserContext";
-import Checkout from "../Checkout/Checkout";
+import CartItem from "./CartItem";
+import { CartContext } from "../../contexts/CartContext";
 
 const Cart = () => {
-    const { isLoggedIn } = useContext(UserContext)
+    const { isLoggedIn } = useContext(UserContext);
+    const { cartItems } = useContext(CartContext);
 
   return (
     <Container>
@@ -16,7 +18,14 @@ const Cart = () => {
             <h2>MY CART</h2>
             <p>Your items reserved for 30mins</p>
         </Header>
-        <Checkout />
+        <CartContainer>
+            {cartItems.map((product) => (
+            <CartItem 
+                key={product.id} 
+                product={product}
+            />
+            ))}
+        </CartContainer>
         <ButtonContainer>
             <Button as={Link} to={isLoggedIn ? CHECKOUT_PATH : LOGIN_PATH}>
                 CheckOut
@@ -29,6 +38,11 @@ const Cart = () => {
 const Container = styled.div`
     max-width: ${screenSize.tablet};
     margin: 0 auto;
+`;
+
+const CartContainer = styled.div`
+  background-color: #ffffff;
+  margin-bottom: 24px;
 `;
 
 const Header = styled.div`

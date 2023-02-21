@@ -7,6 +7,7 @@ import { euroSymbol } from "../../consts/currency";
 import Button from "../../components/Button/Button";
 import { CartContext } from "../../contexts/CartContext"
 import { useContext } from "react";
+import { toast } from "react-hot-toast";
 
 const Product = () => {
     const { productId } = useParams();
@@ -17,6 +18,11 @@ const Product = () => {
     const product = products.find((product) => 
         product.id === Number(productId)
     );
+
+    const handleAddProduct = () => {
+        handleAddToCart(product);
+        toast("Added to cart");
+    }
 
     if(isLoading) {
         return (
@@ -50,7 +56,7 @@ const Product = () => {
                 <Description>
                     {product.description}
                 </Description>
-                <FullWidthButton onClick={() => handleAddToCart(product)}>
+                <FullWidthButton onClick={handleAddProduct}>
                     Add to Cart
                 </FullWidthButton>
             </InfoSide>

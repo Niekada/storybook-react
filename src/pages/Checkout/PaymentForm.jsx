@@ -2,13 +2,15 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import FormikInput from "../../components/Formik/FormikInput";
 import Button from "../../components/Button/Button";
-import { UserContext } from "../../contexts/UserContext";
 import { useContext } from "react";
 import styled from "styled-components";
 import { lightBorderColor } from "../../consts/colors";
 import { requiredField } from "../../consts/validations"
 import FormikSelect from "../../components/Formik/FormikSelect";
 import { CartContext } from "../../contexts/CartContext";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router";
+import { HOME_PATH } from "../../routes/const";
 
 const validationSchema = Yup.object().shape({
   country: Yup.object().required(requiredField),
@@ -23,11 +25,13 @@ const validationSchema = Yup.object().shape({
 });
 
 const PaymentForm = () => {
-
   const { resetCart } = useContext(CartContext);
+  const navigate = useNavigate();
 
-  const handleSubmit = (values) => {
-    resetCart()
+  const handleSubmit = () => {
+    resetCart();
+    navigate(HOME_PATH);
+    toast.success("Purchase confirmed");
   };
 
   return (

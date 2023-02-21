@@ -10,7 +10,6 @@ const transformData = (products) => {
     }));
 };
 
-
 export const fetchProducts = () => {
     return axios
         .get(PRODUCTS_API)
