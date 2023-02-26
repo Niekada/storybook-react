@@ -1,7 +1,8 @@
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import styled from "styled-components";
 import { euroSymbol } from "../../consts/currency";
 
-const CartItem = ({ product }) => {
+const CartItem = ({ product, handleDecreaseQuantity, handleIncreaseQuantity }) => {
   
   return (
     <Container>
@@ -21,9 +22,17 @@ const CartItem = ({ product }) => {
           {product.color}
         </CartItemColor>
       </div>
-      <ItemQuantity>
-        x{product.quantity}
-      </ItemQuantity>
+      <ItemQuantityContainer>
+        <AiOutlineMinus 
+          onClick={handleDecreaseQuantity}
+        />
+        <ItemQuantity>
+          {product.quantity}
+        </ItemQuantity>
+        <AiOutlinePlus 
+          onClick={handleIncreaseQuantity}
+        />
+      </ItemQuantityContainer>
     </Container>
   )
 };
@@ -39,22 +48,33 @@ const Container = styled.div`
 `;
 
 const CartItemPrice = styled.p`
-    font-size: 20px;
-    font-weight: 700;
-    margin-top: 16px;
-    margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  margin-top: 16px;
+  margin-bottom: 10px;
 `;
 
 const CartItemColor = styled.p`
-    font-weight: 300;
-    margin-top: 8px;
+  font-weight: 300;
+  margin-top: 8px;
 `;
 
-const ItemQuantity = styled.div`
-    flex: 1;
-    align-self: center;
-    margin-right: 48px;
-    text-align: right;
+const ItemQuantityContainer = styled.div`
+  flex: 1;
+  margin-right: 48px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+
+  svg {
+    cursor: pointer;
+  }
 `;
+
+const ItemQuantity = styled.p`
+  fonst-size: 18px;
+`
 
 export default CartItem;
